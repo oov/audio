@@ -112,7 +112,7 @@ func (w *writer) WriteFloat32(p []float32) (n int, err error) {
 	}
 
 	w.conv.FromFloat32(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.Size()])
+	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
 	return
 }
 
@@ -123,7 +123,7 @@ func (w *writer) WriteFloat64(p []float64) (n int, err error) {
 	}
 
 	w.conv.FromFloat64(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.Size()])
+	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
 	return
 }
 
@@ -147,7 +147,7 @@ func (w *interleavedWriter) WriteFloat32Interleaved(p [][]float32) (n int, err e
 	}
 
 	w.conv.FromFloat32Interleaved(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.Size()])
+	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
 	return
 }
 
@@ -158,6 +158,6 @@ func (w *interleavedWriter) WriteFloat64Interleaved(p [][]float64) (n int, err e
 	}
 
 	w.conv.FromFloat64Interleaved(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.Size()])
+	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
 	return
 }
