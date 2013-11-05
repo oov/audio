@@ -74,24 +74,26 @@ func NewInterleavedReader(conv converter.InterleavedFormatConverter, r io.Reader
 }
 
 func (r *interleavedReader) ReadFloat32Interleaved(p [][]float32) (n int, err error) {
-	ln := len(p) * len(p[0])
+	ln := len(p) * len(p[0]) * r.conv.SampleSize()
 	if ln > len(r.buf) {
 		r.buf = make([]byte, ln)
 	}
 
 	n, err = r.r.Read(r.buf[:ln])
 	r.conv.ToFloat32Interleaved(r.buf[:n], p)
+	n /= len(p) * r.conv.SampleSize()
 	return
 }
 
 func (r *interleavedReader) ReadFloat64Interleaved(p [][]float64) (n int, err error) {
-	ln := len(p) * len(p[0])
+	ln := len(p) * len(p[0]) * r.conv.SampleSize()
 	if ln > len(r.buf) {
 		r.buf = make([]byte, ln)
 	}
 
 	n, err = r.r.Read(r.buf[:ln])
 	r.conv.ToFloat64Interleaved(r.buf[:n], p)
+	n /= len(p) * r.conv.SampleSize()
 	return
 }
 
@@ -141,23 +143,25 @@ func NewInterleavedWriter(conv converter.InterleavedFormatConverter, w io.Writer
 }
 
 func (w *interleavedWriter) WriteFloat32Interleaved(p [][]float32) (n int, err error) {
-	ln := len(p) * len(p[0])
+	ln := len(p) * len(p[0]) * w.conv.SampleSize()
 	if ln > len(w.buf) {
 		w.buf = make([]byte, ln)
 	}
 
 	w.conv.FromFloat32Interleaved(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
+	n, err = w.w.Write(w.buf[:ln])
+	n /= len(p) * w.conv.SampleSize()
 	return
 }
 
 func (w *interleavedWriter) WriteFloat64Interleaved(p [][]float64) (n int, err error) {
-	ln := len(p) * len(p[0])
+	ln := len(p) * len(p[0]) * w.conv.SampleSize()
 	if ln > len(w.buf) {
 		w.buf = make([]byte, ln)
 	}
 
 	w.conv.FromFloat64Interleaved(p, w.buf[:ln])
-	n, err = w.w.Write(w.buf[:ln*w.conv.SampleSize()])
+	n, err = w.w.Write(w.buf[:ln])
+	n /= len(p) * w.conv.SampleSize()
 	return
 }
