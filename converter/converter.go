@@ -1,7 +1,7 @@
 // Package converter implements audio sample format converter.
 package converter
 
-type FormatConverter interface {
+type Converter interface {
 	SampleSize() int
 	ToFloat32(input []byte, output []float32)
 	ToFloat64(input []byte, output []float64)
@@ -9,7 +9,7 @@ type FormatConverter interface {
 	FromFloat64(input []float64, output []byte)
 }
 
-type InterleavedFormatConverter interface {
+type InterleavedConverter interface {
 	SampleSize() int
 	ToFloat32Interleaved(input []byte, outputs [][]float32)
 	ToFloat64Interleaved(input []byte, outputs [][]float64)

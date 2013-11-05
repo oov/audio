@@ -30,7 +30,7 @@ func NewWriter(w io.Writer, wfext *WaveFormatExtensible) (*Writer, error) {
 }
 
 func newDirectWriter(ws io.WriteSeeker, wfext *WaveFormatExtensible) (*Writer, error) {
-	conv, err := wfext.Format.InterleavedFormatConverter()
+	conv, err := wfext.Format.InterleavedConverter()
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func newDirectWriter(ws io.WriteSeeker, wfext *WaveFormatExtensible) (*Writer, e
 }
 
 func newTempFileWriter(w io.Writer, wfext *WaveFormatExtensible) (*Writer, error) {
-	conv, err := wfext.Format.InterleavedFormatConverter()
+	conv, err := wfext.Format.InterleavedConverter()
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +75,7 @@ func newTempFileWriter(w io.Writer, wfext *WaveFormatExtensible) (*Writer, error
 }
 
 func newTempMemWriter(w io.Writer, wfext *WaveFormatExtensible) (*Writer, error) {
-	conv, err := wfext.Format.InterleavedFormatConverter()
+	conv, err := wfext.Format.InterleavedConverter()
 	if err != nil {
 		return nil, err
 	}

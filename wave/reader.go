@@ -108,7 +108,7 @@ func NewReader(r io.Reader) (audio.InterleavedReader, *WaveFormatExtensible, err
 		}
 	}
 
-	conv, err := wf.Format.InterleavedFormatConverter()
+	conv, err := wf.Format.InterleavedConverter()
 	if err != nil {
 		return nil, nil, err
 	}

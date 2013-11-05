@@ -26,12 +26,12 @@ type InterleavedWriter interface {
 }
 
 type reader struct {
-	conv converter.FormatConverter
+	conv converter.Converter
 	r    io.Reader
 	buf  []byte
 }
 
-func NewReader(conv converter.FormatConverter, r io.Reader) Reader {
+func NewReader(conv converter.Converter, r io.Reader) Reader {
 	return &reader{
 		conv: conv,
 		r:    r,
@@ -61,12 +61,12 @@ func (r *reader) ReadFloat64(p []float64) (n int, err error) {
 }
 
 type interleavedReader struct {
-	conv converter.InterleavedFormatConverter
+	conv converter.InterleavedConverter
 	r    io.Reader
 	buf  []byte
 }
 
-func NewInterleavedReader(conv converter.InterleavedFormatConverter, r io.Reader) InterleavedReader {
+func NewInterleavedReader(conv converter.InterleavedConverter, r io.Reader) InterleavedReader {
 	return &interleavedReader{
 		conv: conv,
 		r:    r,
@@ -100,10 +100,10 @@ func (r *interleavedReader) ReadFloat64Interleaved(p [][]float64) (n int, err er
 type writer struct {
 	w    io.Writer
 	buf  []byte
-	conv converter.FormatConverter
+	conv converter.Converter
 }
 
-func NewWriter(conv converter.FormatConverter, w io.Writer) Writer {
+func NewWriter(conv converter.Converter, w io.Writer) Writer {
 	return Writer(&writer{w: w, conv: conv})
 }
 
@@ -132,10 +132,10 @@ func (w *writer) WriteFloat64(p []float64) (n int, err error) {
 type interleavedWriter struct {
 	w    io.Writer
 	buf  []byte
-	conv converter.InterleavedFormatConverter
+	conv converter.InterleavedConverter
 }
 
-func NewInterleavedWriter(conv converter.InterleavedFormatConverter, w io.Writer) InterleavedWriter {
+func NewInterleavedWriter(conv converter.InterleavedConverter, w io.Writer) InterleavedWriter {
 	return &interleavedWriter{
 		w:    w,
 		conv: conv,

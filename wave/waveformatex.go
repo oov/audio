@@ -142,8 +142,8 @@ func (wfex *WaveFormatEx) WriteTo(w io.Writer) (n int64, err error) {
 	return
 }
 
-func (wfex *WaveFormatEx) FormatConverter() (converter.FormatConverter, error) {
-	var conv converter.FormatConverter
+func (wfex *WaveFormatEx) Converter() (converter.Converter, error) {
+	var conv converter.Converter
 	switch wfex.FormatTag {
 	case WAVE_FORMAT_PCM:
 		switch wfex.BitsPerSample {
@@ -170,8 +170,8 @@ func (wfex *WaveFormatEx) FormatConverter() (converter.FormatConverter, error) {
 	return conv, nil
 }
 
-func (wfex *WaveFormatEx) InterleavedFormatConverter() (converter.InterleavedFormatConverter, error) {
-	var conv converter.InterleavedFormatConverter
+func (wfex *WaveFormatEx) InterleavedConverter() (converter.InterleavedConverter, error) {
+	var conv converter.InterleavedConverter
 	switch wfex.FormatTag {
 	case WAVE_FORMAT_PCM:
 		switch wfex.BitsPerSample {
