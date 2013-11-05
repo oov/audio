@@ -35,7 +35,7 @@ func testResultInt16(a []int16, t *testing.T) {
 
 func testResultInt24(a []int32, t *testing.T) {
 	t.Log("min:", a[0], "low:", a[1], "zero:", a[2], "high:", a[3], "max:", a[4])
-	for i, s := range dataInt32 {
+	for i, s := range dataInt24 {
 		if math.Abs(float64(s)-float64(a[i])) > 0x100 {
 			t.Fail()
 		}
