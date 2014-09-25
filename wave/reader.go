@@ -15,8 +15,8 @@ func min(a, b int) int {
 	return b
 }
 
-// NewReader returns an audio.InterleavedReader which waveform audio data from r.
-func NewReader(r io.Reader) (audio.InterleavedReader, *WaveFormatExtensible, error) {
+// NewLimitedReader returns an *io.LimitedReader which waveform audio data from r.
+func NewLimitedReader(r io.Reader) (*io.LimitedReader, *WaveFormatExtensible, error) {
 	var chunk [4]byte
 	var err error
 	if _, err = io.ReadFull(r, chunk[:]); err != nil {
@@ -72,7 +72,7 @@ func NewReader(r io.Reader) (audio.InterleavedReader, *WaveFormatExtensible, err
 
 	var wf WaveFormatExtensible
 	var rd int64
-	if rd, err = wf.Format.ReadFrom(r); err != nil {
+	if rd, err = wf.Format.ReadFrom(lr); err != nil {
 		return nil, nil, err
 	}
 
@@ -108,9 +108,19 @@ func NewReader(r io.Reader) (audio.InterleavedReader, *WaveFormatExtensible, err
 		}
 	}
 
+	return &io.LimitedReader{r, int64(ln)}, &wf, nil
+}
+
+// NewReader returns an audio.InterleavedReader which waveform audio data from r.
+func NewReader(r io.Reader) (audio.InterleavedReader, *WaveFormatExtensible, error) {
+	lr, wf, err := NewLimitedReader(r)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	conv, err := wf.Format.InterleavedConverter()
 	if err != nil {
 		return nil, nil, err
 	}
-	return audio.NewInterleavedReader(conv, io.LimitReader(r, int64(ln))), &wf, nil
+	return audio.NewInterleavedReader(conv, lr), wf, nil
 }

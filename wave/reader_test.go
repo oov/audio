@@ -170,7 +170,7 @@ func TestReader(t *testing.T) {
 			return
 		}
 
-		samples := make([][]float64, 0)
+		var samples [][]float64
 		for i := 0; i < int(wf.Format.Channels); i++ {
 			samples = append(samples, make([]float64, 12))
 		}
